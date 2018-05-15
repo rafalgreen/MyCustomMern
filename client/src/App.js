@@ -9,12 +9,14 @@ export default class AllUsers extends Component {
         }
         this.logChange = this.logChange.bind(this);
     }
+
     componentDidMount() {
         let self = this;
         fetch('/users')
             .then(res => res.json())
             .then(members => self.setState({ members: members }));
     }
+
     logChange(e) {
         this.setState({[e.target.name]: e.target.value});
     }
@@ -25,7 +27,7 @@ export default class AllUsers extends Component {
                 <table className="table">
                     <thead>
                     <tr>
-                        <th>Login</th>
+                        <th>Login222</th>
                         <th>Profile</th>
                         <th>Action</th>
                     </tr>

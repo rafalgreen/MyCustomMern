@@ -3,9 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon app.js",
+    "client": "npm start --prefix client",
+    "client-install": "cd client && npm install"
   },
   "dependencies": {
+    "concurrently": "^3.5.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
@@ -14,5 +19,24 @@
     "install": "^0.11.0",
     "mongoose": "^5.0.14",
     "morgan": "~1.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.3"
   }
 }
+
+
+/*
+"scripts": {
+    "clean": "rimraf ./src/server/static",
+    "predev": "npm run clean",
+    "dev": "npm-run-all --parallel dev-server dev-client",
+    "prd": "npm-run-all --parallel dev-server prd-client",
+    "dev-server": "nodemon --watch src/server --ignore src/server/static/ src/server/index.js ",
+    "dev-client": "webpack --config webpack.client.dev.babel.js --watch",
+    "prd-client": "NODE_ENV=production webpack --config webpack.client.prd.babel.js --watch",
+    "build": "webpack --config webpack.client.babel.js",
+    "test": "jest --coverage",
+    "testwatch": "jest --watch"
+  },
+*/
