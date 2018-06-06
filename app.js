@@ -20,6 +20,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.disable('etag');
+app.use( bodyParser.json() );
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -50,3 +52,5 @@ module.exports = app;
 // var http = require('http');
 // var server = http.createServer(app);
 // server.listen(4007);
+
+
