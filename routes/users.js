@@ -1,10 +1,10 @@
-var express = require('express');
-var mongoose = require('mongoose')
+const express = require('express');
+const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost:27017/demo')
-var router = express.Router();
+const router = express.Router();
 
-var User = mongoose.model('users', {
+const User = mongoose.model('users', {
     login: String,
     profile: String
 })
@@ -45,6 +45,13 @@ router.get('/id/:id', (req, res, next) => {
     })
 });
 
+router.delete('/id/:id', (req, res, next) => {
+    User.findByIdAndRemove(req.params.id, (error, user) => {
+        if (error) return next(error)
+        res.status(200).json(user)
+    })
+});
+
 router.get('/login/:login', (req, res, next) => {
     User.find({login: req.params.login}, (error, user) => {
         if (error) return next(error)
@@ -52,6 +59,8 @@ router.get('/login/:login', (req, res, next) => {
         res.status(200)
     })
 });
+
+
 
 
 router.post('/', (req, res)=>{

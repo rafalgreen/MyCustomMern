@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import axios from 'axios';
 
-export default class AllUsers extends Component {
+export default class extends Component {
     constructor(props) {
         super(props)
-        // console.log(props)
         this.state = {
             members: []
         }
@@ -12,14 +12,19 @@ export default class AllUsers extends Component {
 
     componentDidMount() {
         let self = this;
-        fetch('/users')
-            .then(res => res.json())
-            .then(members => self.setState({ members: members }));
+        axios.get("/users")
+            .then((response) => {
+                self.setState({members: [...response.data]});
+            })
+            .catch((error) => {
+                throw error;
+            });
     }
 
     logChange(e) {
         this.setState({[e.target.name]: e.target.value});
     }
+
     render() {
         return (
             <div className="Users container">
@@ -27,22 +32,38 @@ export default class AllUsers extends Component {
                 <table className="table">
                     <thead>
                     <tr>
-                        <th>Login222</th>
+                        <th>Login</th>
                         <th>Profile</th>
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     {this.state.members.map(member =>
-                        <tr key={member.id}>
+                        <tr key={member._id}>
                             <td>{member.login} </td>
                             <td>{member.profile}</td>
-                            <td><button className="btn btn-primary">Edit</button> <button className="btn btn-danger">Delete</button></td>
+                            <td>
+                                <button className="btn btn-primary">Edit</button>
+                                <button className="btn btn-danger" onClick={() => this.removeUser(member._id)}>Delete
+                                </button>
+                            </td>
                         </tr>
                     )}
                     </tbody>
                 </table>
             </div>
         );
+    }
+
+    removeUser(id) {
+        axios.delete("/users/id/" + id)
+            .then((response) => {
+                this.setState({
+                    members: this.state.members.filter(m => m._id !== id)
+                });
+            })
+            .catch((error) => {
+                throw error;
+            });
     }
 }

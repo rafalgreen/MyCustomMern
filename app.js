@@ -1,15 +1,15 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var bodyParser = require('body-parser')
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const bodyParser = require('body-parser')
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -42,7 +42,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-let port = 3000;
+const port = 3000;
 
 
 app.listen(port, () =>  console.log('Example app listening on port ' + port + '!'))
