@@ -2,13 +2,13 @@ import React, {Component} from 'react'
 import axios from 'axios'
 import Row from './Components/Row'
 
-export default class User extends Component {
+export default class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
             members: []
         }
-        this.removeUser = this.removeUser.bind(this);
+        //this.removeUser = this.removeUser.bind(this);
         this.logChange = this.logChange.bind(this);
     }
 
@@ -29,7 +29,7 @@ export default class User extends Component {
 
     render() {
         return (
-            <div className="Users container">
+            <div className="container">
                 <h1>Users</h1>
                 <table className="table">
                     <thead>
@@ -52,7 +52,7 @@ export default class User extends Component {
         );
     }
 
-    removeUser(id) {
+    removeUser = (id) => {
         axios.delete("/users/id/" + id)
             .then((response) => {
                 this.setState({
@@ -64,7 +64,7 @@ export default class User extends Component {
             });
     }
 
-    addRandomUser() {
+    addRandomUser(){
         axios.put("/users/create-random")
             .then((response) => {
                 this.setState({

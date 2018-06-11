@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import User from './User';
+import App from './App';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 // import {Provider} from 'react-redux'
 // import {createStore, applyMiddleware} from 'redux'
 // import rootReducer, {DEFAULT_STATE} from './reducers'
@@ -11,7 +12,7 @@ import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
     //<Provider store={store}>
-    <User />
+    <App />
     , document.getElementById('root')
     //</Provider>
 );
