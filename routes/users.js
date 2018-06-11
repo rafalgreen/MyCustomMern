@@ -9,7 +9,7 @@ const User = mongoose.model('users', {
     profile: String
 })
 
-router.all('/all',  (req, res, next) => {
+router.all('/all', (req, res, next) => {
     console.log('router all!!!!!!!!!!!!');
     next() // pass control to the next handler
     console.log('router all!!!!!!!!!!!!22222222');
@@ -23,7 +23,7 @@ router.get('/next', (req, res, next) => {
 })
 
 router.get('/a', (req, res, next) => {
-    var query = User.find({ login: /2222/i }, null, {sort: {_id: -1}});
+    var query = User.find({login: /2222/i}, null, {sort: {_id: -1}});
     var promise = query.exec();
 
     promise.addBack(function (err, docs) {
@@ -60,35 +60,50 @@ router.get('/login/:login', (req, res, next) => {
     })
 });
 
+router.put('/create-random', (req, res) => {
+    var user = new User()
+    user.login = Math.random().toString(10).substring(2, 10)
+    user.profile = user.login.length % 2 == 0 ? 'FULL' : 'LIGHT'
+    user.save(function (err) {
+        if (err) {
+            res.send(err);
+        } else {
+            User.find({login: user.login, profile: user.profile}, (error, userr) => {
+                if (error) return next(error)
+
+                res.status(201).send(userr);
+            })
+        }
+    })
+})
 
 
-
-router.post('/', (req, res)=>{
+router.post('/', (req, res) => {
     var user = new User()
     user.login = req.body.login
     user.profile = "LIGHT"
-    user.save((err)=>{
-        if(err) res.send(err)
+    user.save((err) => {
+        if (err) res.send(err)
         res.status(201)
     })
 })
 
-router.post('/login/:login/profile/:profile', (req, res)=>{
+router.post('/login/:login/profile/:profile', (req, res) => {
     var user = new User()
     user.login = req.params.login
     user.profile = req.params.profile
-    user.save((err)=>{
-        if(err) res.send(err)
+    user.save((err) => {
+        if (err) res.send(err)
     })
     res.status(201)
 })
 
-router.post('/login/:login/profile/:profile', (req, res)=>{
+router.post('/login/:login/profile/:profile', (req, res) => {
     var user = new User()
     user.login = req.params.login
     user.profile = req.params.profile
-    user.save((err)=>{
-        if(err) res.send(err)
+    user.save((err) => {
+        if (err) res.send(err)
     })
     res.status(201)
 })

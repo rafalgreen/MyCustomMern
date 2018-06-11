@@ -1,12 +1,14 @@
-import React, {Component} from 'react';
-import axios from 'axios';
+import React, {Component} from 'react'
+import axios from 'axios'
+import Row from './Components/Row'
 
-export default class extends Component {
+export default class User extends Component {
     constructor(props) {
         super(props)
         this.state = {
             members: []
         }
+        this.removeUser = this.removeUser.bind(this);
         this.logChange = this.logChange.bind(this);
     }
 
@@ -32,25 +34,20 @@ export default class extends Component {
                 <table className="table">
                     <thead>
                     <tr>
+                        <th>Lp</th>
                         <th>Login</th>
                         <th>Profile</th>
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.members.map(member =>
-                        <tr key={member._id}>
-                            <td>{member.login} </td>
-                            <td>{member.profile}</td>
-                            <td>
-                                <button className="btn btn-primary">Edit</button>
-                                <button className="btn btn-danger" onClick={() => this.removeUser(member._id)}>Delete
-                                </button>
-                            </td>
-                        </tr>
-                    )}
+                    {
+                        this.state.members.map(member => <Row removeUser={this.removeUser} user={member}/>)
+                    }
                     </tbody>
                 </table>
+                <button className="btn btn-success" onClick={() => this.addRandomUser()}>Add Random</button>
+
             </div>
         );
     }
@@ -60,6 +57,18 @@ export default class extends Component {
             .then((response) => {
                 this.setState({
                     members: this.state.members.filter(m => m._id !== id)
+                });
+            })
+            .catch((error) => {
+                throw error;
+            });
+    }
+
+    addRandomUser() {
+        axios.put("/users/create-random")
+            .then((response) => {
+                this.setState({
+                    members: [...this.state.members, ...response.data]
                 });
             })
             .catch((error) => {
